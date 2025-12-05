@@ -1,6 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Welcome! This our project, The "QuizWhizz" Online Quiz Website.
 
-## Getting Started
+This website help the students who were fond of self learning and self assessment, this project aims to elevate and made learning more fun and interactive. If you want to test yourself to help you assess your knowledge and build confidence for your upcoming exam or quiz, this website is made for you! 
+
+You can create questions, select choices, and answer it when you're ready. You can delete the quiz if you are already done or if you just want it to stay for future reference it is up to you, you are in full control in this app.
+
+It is would also be fun if you have a friend or study mate who will make questions for you and vice versa!
+
+This project is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+===To Get Started===
 
 First, run the development server:
 
@@ -14,23 +22,21 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open [http://localhost:3000](http://localhost:3000) in your browser, and then you are now good to go.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+Our Project has...
 
-To learn more about Next.js, take a look at the following resources:
+ ===Registration and Authentication===
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Sign up page for the new user --- All you have to do was to enter your e-mail and your desired password.
+Log in page for returning user --- If you already have an account, just go to Log in and then type your e-mail and password.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+===Dashboard===
+Add Button --- This button allows you to add quiz, set quiz title, set questions, and choices.
+Finish Button --- If you are done creating and setting your quiz, tap the finish button to save your quiz.
+Quizzes --- Here, you can see the quizzes you created, just press it and then you will see the quiz in the Questionnaire, you can also delete your quiz here.
+Questionnaire --- You can create and set your quiz here, it is also here where you answer your quiz.
+Item Navigation --- You can see here the items of the quiz you created.
+Log out Button --- If you want to log your account out, just press this button.

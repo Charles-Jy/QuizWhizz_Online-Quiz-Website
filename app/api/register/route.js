@@ -14,7 +14,6 @@ export async function POST(req) {
       return Response.json({ error: "Email and password are required" }, { status: 400 });
     }
     
-    // Trim and validate
     const trimmedEmail = String(email).trim();
     const trimmedPassword = String(password).trim();
     
@@ -32,21 +31,18 @@ export async function POST(req) {
     const [result] = await db.query("INSERT INTO users (email, password) VALUES (?, ?)", [trimmedEmail, trimmedPassword]);
     const userId = result.insertId;
 
-    // Generate a session token
     const sessionToken = crypto.randomBytes(32).toString("hex");
     
-    // Update user with session token
     await db.query(
       "UPDATE users SET session_token = ? WHERE id = ?",
       [sessionToken, userId]
     );
 
-    // Set session cookie
     const cookieStore = await cookies();
     cookieStore.set("session", sessionToken, {
       httpOnly: true,
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7,
     });
 
     return Response.json({ message: "User registered successfully!", userId });

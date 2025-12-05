@@ -11,7 +11,6 @@ type Quiz = { id: number; title: string; questions: Question[] };
 export default function Dashboard() {
   const router = useRouter();
 
-  // --- State ---
   const [draftQuestions, setDraftQuestions] = useState<Question[]>([]);
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [selectedQuizId, setSelectedQuizId] = useState<number | null>(null);
@@ -36,7 +35,6 @@ async function loadQuizzes() {
   }
 }
 
-// Call once in useEffect
  useEffect(() => {
     async function checkAuthentication() {
       setIsLoading(true);
@@ -47,7 +45,6 @@ async function loadQuizzes() {
       }
       setIsAuthenticated(true);
       
-      // Load quizzes after auth check passes
       try {
         const res = await fetch("/api/quizzes/load");
         const data = await res.json();
@@ -63,13 +60,10 @@ async function loadQuizzes() {
     checkAuthentication();
   }, [router]);
 
-
-  // --- Logout ---
   function handleLogout() {
     router.push("/");
   }
 
-  // --- Add new question to draft ---
   function addQuestion() {
     setDraftQuestions((prev) => [
       ...prev,
@@ -77,7 +71,6 @@ async function loadQuizzes() {
     ]);
   }
 
-  // --- Add new quiz set ---
   function addQuestionSet() {
     const title = window.prompt("Enter a name for the new quiz:", `New Quiz ${quizzes.length + 1}`);
     if (!title) return;
@@ -100,24 +93,20 @@ async function loadQuizzes() {
     setSubmitted(false);
   }
 
-  // --- Update question text ---
   function updateQuestionText(id: number, text: string) {
     setDraftQuestions((prev) => prev.map((q) => (q.id === id ? { ...q, text } : q)));
   }
 
-  // --- Update choice text ---
   function updateChoice(id: number, idx: number, value: string) {
     setDraftQuestions((prev) =>
       prev.map((q) => (q.id === id ? { ...q, choices: q.choices.map((c, i) => (i === idx ? value : c)) } : q))
     );
   }
 
-  // --- Set correct answer index ---
   function setCorrectIndex(id: number, idx: number) {
     setDraftQuestions((prev) => prev.map((q) => (q.id === id ? { ...q, correctIndex: idx } : q)));
   }
 
-  // --- Scroll to question ---
   function scrollToQuestion(id: number) {
     const el = questionRefs.current[id];
     if (el) {
@@ -127,7 +116,6 @@ async function loadQuizzes() {
     }
   }
 
-  // --- Finish Quiz and Save to DB ---
 async function finishQuiz() {
   if (draftQuestions.length === 0) return alert("Add at least one question!");
 
@@ -153,13 +141,12 @@ async function finishQuiz() {
 
     alert("Quiz saved successfully!");
     
-    // Reload quizzes from database
     try {
       const reloadRes = await fetch("/api/quizzes/load");
       const reloadData = await reloadRes.json();
       if (reloadRes.ok) {
         setQuizzes(reloadData.quizzes);
-        // Select the newly created quiz (it should be the last one)
+
         const newQuiz = reloadData.quizzes[reloadData.quizzes.length - 1];
         if (newQuiz) {
           viewQuiz(newQuiz.id);
@@ -169,7 +156,6 @@ async function finishQuiz() {
       console.error("Failed to reload quizzes:", err);
     }
     
-    // Reset draft
     setDraftQuestions([]);
     setSelectedQuizId(null);
     setMode("answer");
@@ -181,7 +167,6 @@ async function finishQuiz() {
   }
 }
 
-  // --- View quiz ---
   function viewQuiz(quizId: number) {
     const quiz = quizzes.find((q) => q.id === quizId);
     if (!quiz) return;
@@ -192,7 +177,6 @@ async function finishQuiz() {
     setSubmitted(false);
   }
 
-  // --- Delete quiz ---
   async function deleteQuiz(quizId: number) {
     if (!window.confirm("Are you sure you want to delete this quiz?")) return;
     
@@ -209,10 +193,8 @@ async function finishQuiz() {
         return alert("Failed to delete quiz: " + data.error);
       }
 
-      // Remove from local state
       setQuizzes((prev) => prev.filter((q) => q.id !== quizId));
       
-      // Reset if the deleted quiz was selected
       if (selectedQuizId === quizId) {
         setSelectedQuizId(null);
         setDraftQuestions([]);
@@ -229,7 +211,6 @@ async function finishQuiz() {
 
   const selectedQuiz = quizzes.find((q) => q.id === selectedQuizId) ?? null;
 
-  // --- Submit answers ---
   function submitAnswers() {
     if (!selectedQuiz) return;
     let correct = 0;
@@ -241,7 +222,6 @@ async function finishQuiz() {
     setSubmitted(true);
   }
 
-  // --- JSX ---
   if (isLoading) {
     return <div className="flex items-center justify-center min-h-screen bg-black text-yellow-300 text-xl">Loading...</div>;
   }
@@ -252,7 +232,6 @@ async function finishQuiz() {
 
   return (
     <div>
-      {/* Header */}
       <div className="flex justify-between items-center mx-1">
         <div className="flex items-center ml-2">
           <h1 className="text-yellow-300 sm:text-xl md:text-3xl lg:text-4xl xl:text-5xl font-bold font-[comic] text-center mt-5">QuizWhizz</h1>
@@ -266,7 +245,6 @@ async function finishQuiz() {
       </div>
 
       <div className="flex justify-center mt-5">
-        {/* Sidebar Quizzes */}
         <div className="w-[20%] h-screen bg-amber-300 ml-1 shadow-lg overflow-auto">
           <div className="px-[10%] bg-yellow-300 py-5">
             <h1 className="text-black text-xl font-bold font-serif">Quizzes</h1>
@@ -287,7 +265,6 @@ async function finishQuiz() {
           </div>
         </div>
 
-        {/* Main Questionnaire */}
         <div className="w-[60%] h-screen bg-amber-300 shadow-lg relative">
           <div className="px-[5%] bg-yellow-300 py-5">
             <h1 className="text-black text-xl font-bold font-serif">Questionnaire</h1>
@@ -329,7 +306,6 @@ async function finishQuiz() {
               ))}
           </div>
 
-          {/* Buttons */}
           <div className="absolute bottom-4 left-4 flex items-center space-x-3">
             <button onClick={addQuestionSet} className="bg-yellow-400 hover:bg-yellow-500 text-black rounded-full w-14 h-14 flex items-center justify-center shadow-lg">+</button>
             {mode === "edit" ? (
@@ -344,7 +320,6 @@ async function finishQuiz() {
           </div>
         </div>
 
-        {/* Right Sidebar: Item Navigation */}
         <div className="w-[20%] h-screen bg-amber-300 mr-1 shadow-lg overflow-auto">
           <div className="px-[10%] bg-yellow-300 py-5">
             <h1 className="text-black text-xl font-bold font-serif">Item Navigation</h1>

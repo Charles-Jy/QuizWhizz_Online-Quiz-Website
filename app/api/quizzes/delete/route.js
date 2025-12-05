@@ -12,7 +12,6 @@ export async function DELETE(req) {
       return Response.json({ error: "Quiz ID is required" }, { status: 400 });
     }
 
-    // Verify the quiz belongs to the user
     const [quizzes] = await db.query(
       "SELECT * FROM quizzes WHERE id = ? AND user_id = ?",
       [quizId, user.id]
@@ -22,7 +21,6 @@ export async function DELETE(req) {
       return Response.json({ error: "Quiz not found or unauthorized" }, { status: 404 });
     }
 
-    // Delete the quiz (cascading delete will remove questions and choices)
     await db.query("DELETE FROM quizzes WHERE id = ?", [quizId]);
 
     return Response.json({ message: "Quiz deleted successfully!" });

@@ -9,6 +9,8 @@ export default function LoginPage() {
 const [password, setPassword] = useState("");
 const [message, setMessage] = useState("");
 
+
+
 async function handleLogin(e: any) {
   e.preventDefault();
 
@@ -26,7 +28,7 @@ async function handleLogin(e: any) {
       alert(data?.error || "Login failed");
     } else {
       setMessage("Login successful!");
-      router.push("/dashboard"); // redirect to dashboard
+      router.push("/dashboard");
     }
   } catch (err) {
     setMessage("Network error");

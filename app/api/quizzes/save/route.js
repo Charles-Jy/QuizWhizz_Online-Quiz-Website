@@ -3,7 +3,7 @@ import { getUserFromSession } from "@/lib/auth";
 
 export async function POST(req) {
   try {
-    const user = await getUserFromSession(); // ✅ server-side, awaited
+    const user = await getUserFromSession(); 
     if (!user) return Response.json({ error: "Not logged in" }, { status: 401 });
 
     const body = await req.json();
