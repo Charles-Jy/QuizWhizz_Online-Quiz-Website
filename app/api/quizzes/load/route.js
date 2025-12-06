@@ -23,6 +23,9 @@ export async function GET() {
           [q.id]
         );
         q.choices = choices.map(c => c.text);
+        // Map correct_index to correctIndex and ensure it's a number
+        q.correctIndex = q.correct_index !== null ? Number(q.correct_index) : null;
+        delete q.correct_index; // Remove the old snake_case property
       }
 
       quiz.questions = questions;
